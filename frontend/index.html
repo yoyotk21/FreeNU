@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FreeNU</title>
+    <script>
+        function init() {
+            loadEvents()
+            // should reload the events every five seconds
+            setInterval(loadEvents, 5000)
+        }
+
+        function loadEvents() {
+            return fetch("/get-events")
+                .then((response) => response.json()
+                .then((response) => {
+                    let events = document.getElementById("events")
+                    if (response.length == 0) {
+                        return
+                    }
+                    events.innerHTML = ""
+                    response.forEach((event) => {
+                        let entry = document.createElement("div")
+                        entry.className = "entry row border p-3"
+
+                        let keyDiv = document.createElement("div")
+                        keyDiv.className = "key col-md-6 font-weight-bold"
+                        keyDiv.innerText = event.event
+
+                        let valDiv = document.createElement("div")
+                        valDiv.className = "value col-md-6"
+                        valDiv.innerText = event.description
+
+                        let timeDiv = document.createElement("div")
+                        timeDiv.className = "endtime p-1"
+                        timeDiv.innerText = event.endTime
+                        
+                        let locationDiv = document.createElement("div")
+                        locationDiv.className = "location p-1"
+                        locationDiv.innerText = event.location
+
+                        entry.appendChild(keyDiv)
+                        entry.appendChild(valDiv)
+                        entry.appendChild(timeDiv)
+                        entry.appendChild(locationDiv)
+                        
+                        events.appendChild(entry)
+                    })
+                }))
+        }
+        function submitEvent() {
+            let event = document.getElementById("event name").value
+            let description = document.getElementById("event description").value
+            let endTime = document.getElementById("end time").value
+            let location = document.getElementById("location").value
+            data = {
+                event: event,
+                description: description,
+                endTime: endTime,
+                location: location
+            }
+            fetch("/modify-events", {
+                method: "POST",
+                body: JSON.stringify(data)
+            }).then((response) => {
+                loadEvents().then((x) => {
+                    document.getElementById("event name").value = ""
+                    document.getElementById("event description").value = ""
+                    document.getElementById("end time").value = ""
+                    document.getElementById("location").value = ""
+                })  
+            })  
+        }
+    </script>
+    <style>
+        #events {
+            overflow: scroll;
+            height: 60vh;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head> 
+<body onload="init()">
+    <h1 class="jumbotron">Free NU</h1>
+    <div class="container">
+        <div class="row">
+            
+            <div class="p-3 col-sm">
+                <div class="form-group">
+                    <label for="event name">Event name</label>
+                    <input class="form-control" id="event name" placeholder="Enter event name">
+                </div>
+                <div class="form-group">
+                    <label for="event description">Event description</label>
+                    <textarea class="form-control" id="event description" rows=3 placeholder="Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="end time">Event end time</label>
+                    <input class="form-control" id="end time" type="time">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input class="form-control" id="location">
+                </div>
+                <button type="submit" onclick="submitEvent()" class="btn btn-primary">Submit</button>
+            </div>
+
+            <div id="events" class="col-sm m-3 shadow">
+                <p class="text-center p-3 m-3">No current events.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
