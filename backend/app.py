@@ -1,5 +1,7 @@
 from flask import Flask, request
+from helpers import remove_expired_events, is_past_time
 import json
+import time
 
 app = Flask(__name__)
 
@@ -9,8 +11,14 @@ def hello_world():
     with open("../frontend/index.html", "r") as f:
         return f.read()
 
-@app.route("/get-events")
+@app.route("/app.js")
+def get_js():
+    with open("../frontend/app.js", "r") as f:
+        return f.read()
+
+@app.route("/get-events", methods=["GET"])
 def get_events():
+    remove_expired_events()
     with open("../events/events.json", "r") as f:
         return f.read()
 
@@ -31,4 +39,5 @@ def modify_events():
         # some checks and then delete the event associated with request.args["name"]
         data.remove(request.data)
         return "success"
+
 
