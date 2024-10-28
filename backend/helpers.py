@@ -1,3 +1,4 @@
+import json, time
 
 def remove_expired_events():
     with open("../events/events.json", "r") as f1:
