@@ -4,8 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
 import AddEventForm from './components/AddEventForm';
 import EventList from './components/EventList';
-
-// CHANGING THINGS
+import EventsMap from './components/EventsMap'
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -60,7 +59,14 @@ function App() {
           <AddEventForm addEvent={addEvent} />
         )}
       </div>
-      <EventList events={events} deleteEvent={deleteEvent} />
+      <div className="row">
+        <div className="col-md-6">
+          <EventList events={events} deleteEvent={deleteEvent} />
+        </div>
+        <div className="col-md-6">
+          <EventsMap events={events} deleteEvent={deleteEvent} />
+        </div>
+      </div>
     </div>
   );
 }
