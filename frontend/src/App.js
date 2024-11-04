@@ -80,10 +80,10 @@ function App() {
         )}
       </div>
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-lg-8 col-md-8 col-sm-12">
           <EventsMap events={events} incEvent={incEvent} decEvent={decEvent} />
         </div>
-        <div className="col-md-6">
+        <div className="col-lg-4 col-md-4 col-sm-12 mt-2">
           <EventList events={events} incEvent={incEvent} decEvent={decEvent} />
         </div>
         

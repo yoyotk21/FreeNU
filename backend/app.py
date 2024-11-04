@@ -84,6 +84,8 @@ if __name__ == '__main__':
     # Ensure the database schema includes the new latitude, longitude, and counter fields
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
+        # uncomment to restart the database
+        # cursor.execute('DROP TABLE events')
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
