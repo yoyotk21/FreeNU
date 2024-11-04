@@ -10,7 +10,7 @@ function EventList({ events, incEvent, decEvent }) {
 
   return (
     <div className="card shadow p-4 bg-white rounded">
-      <h2 className="text-center mb-4">Upcoming Events</h2>
+      <h2 className="text-center mb-4">Events</h2>
       {events.length > 0 ? (
         <ul className="list-group">
           {events.map((event) => (
