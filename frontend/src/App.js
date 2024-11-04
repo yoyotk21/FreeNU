@@ -18,6 +18,7 @@ function App() {
     try {
       const response = await axios.get('http://127.0.0.1:5000/get_events');
       setEvents(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching events", error);
     }
@@ -26,13 +27,32 @@ function App() {
   const addEvent = async (event) => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/add_event', event);
-      alert(response.data.message);
       setShowAddEvent(false);
       fetchEvents();
     } catch (error) {
       console.error("Error adding event", error);
     }
   };
+
+  const incEvent = async (eventId) => {
+    try {
+      const response = await axios.post(`http://127.0.0.1:5000/update_counter/${eventId}`, 
+        {action: "increase"});
+      fetchEvents();
+    } catch (error) {
+      console.log("Error increase counter for event", error);
+    }
+  }
+
+  const decEvent = async (eventId) => {
+    try {
+      const response = await axios.post(`http://127.0.0.1:5000/update_counter/${eventId}`, 
+        {action: "decrease"});
+      fetchEvents();
+    } catch (error) {
+      console.log("Error increase counter for event", error);
+    }
+  }
 
   const deleteEvent = async (eventId) => {
     try {
@@ -61,10 +81,10 @@ function App() {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <EventList events={events} deleteEvent={deleteEvent} />
+          <EventList events={events} incEvent={incEvent} decEvent={decEvent} />
         </div>
         <div className="col-md-6">
-          <EventsMap events={events} deleteEvent={deleteEvent} />
+          <EventsMap events={events} incEvent={incEvent} decEvent={decEvent} />
         </div>
       </div>
     </div>

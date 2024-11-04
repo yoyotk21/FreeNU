@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EventItem from './EventItem';
 
-function EventList({ events, deleteEvent }) {
+function EventList({ events, incEvent, decEvent }) {
   const [expandedEventId, setExpandedEventId] = useState(null);
 
   const toggleExpandEvent = (eventId) => {
@@ -17,7 +17,8 @@ function EventList({ events, deleteEvent }) {
             <EventItem
               key={event.id}
               event={event}
-              deleteEvent={deleteEvent}
+              incEvent={incEvent}
+              decEvent={decEvent}
               isExpanded={expandedEventId === event.id}
               toggleExpandEvent={() => toggleExpandEvent(event.id)}
             />

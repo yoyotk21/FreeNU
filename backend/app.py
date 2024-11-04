@@ -23,8 +23,8 @@ def add_event():
 
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO events (title, description, end_time, location, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)",
-                       (title, description, end_time, location, latitude, longitude))
+        cursor.execute("INSERT INTO events (title, description, end_time, location, latitude, longitude, counter) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                       (title, description, end_time, location, latitude, longitude, 0))
         conn.commit()
         event_id = cursor.lastrowid
 
@@ -37,7 +37,7 @@ def get_events():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM events")
         events = [
-            {"id": row[0], "title": row[1], "description": row[2], "end_time": row[3], "location": row[4], "latitude": row[5], "longitude": row[6]}
+            {"id": row[0], "title": row[1], "description": row[2], "end_time": row[3], "location": row[4], "latitude": row[5], "longitude": row[6], "counter": row[7]}
             for row in cursor.fetchall()
         ]
     return jsonify(events), 200
@@ -53,8 +53,35 @@ def delete_event(event_id):
         conn.commit()
     return jsonify({"message": "Event deleted successfully"}), 200
 
+# Route to update the counter for an event
+@app.route('/update_counter/<int:event_id>', methods=['POST'])
+def update_counter(event_id):
+    data = request.get_json()
+    action = data.get('action')
+
+    if action not in ['increase', 'decrease']:
+        return jsonify({"error": "Invalid action. Use 'increase' or 'decrease'"}), 400
+
+    with sqlite3.connect(db_file) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT counter FROM events WHERE id = ?", (event_id,))
+        row = cursor.fetchone()
+        if row is None:
+            return jsonify({"error": "Event not found"}), 404
+
+        counter = row[0]
+        if action == 'increase':
+            counter += 1
+        elif action == 'decrease' and counter > 0:
+            counter -= 1
+
+        cursor.execute("UPDATE events SET counter = ? WHERE id = ?", (counter, event_id))
+        conn.commit()
+
+    return jsonify({"message": "Counter updated successfully", "counter": counter}), 200
+
 if __name__ == '__main__':
-    # Ensure the database schema includes the new latitude and longitude fields
+    # Ensure the database schema includes the new latitude, longitude, and counter fields
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -65,7 +92,8 @@ if __name__ == '__main__':
                 end_time TEXT NOT NULL,
                 location TEXT NOT NULL,
                 latitude REAL NOT NULL,
-                longitude REAL NOT NULL
+                longitude REAL NOT NULL,
+                counter INTEGER DEFAULT 0
             )
         ''')
     app.run(debug=True)

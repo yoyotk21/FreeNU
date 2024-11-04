@@ -1,6 +1,7 @@
-import React from 'react';
+import {React, useState} from 'react';
 
-function EventItem({ event, deleteEvent, isExpanded, toggleExpandEvent }) {
+function EventItem({ event, incEvent, decEvent, isExpanded, toggleExpandEvent }) {
+  let [show, setShow] = useState(toggleExpandEvent == null)
   return (
     <li className="list-group-item" style={{ cursor: 'pointer' }} onClick={toggleExpandEvent}>
       <div className="d-flex justify-content-between align-items-center">
@@ -11,8 +12,15 @@ function EventItem({ event, deleteEvent, isExpanded, toggleExpandEvent }) {
           <p className="mb-1"><strong>Description:</strong> {event.description}</p>
           <p className="mb-1"><strong>End Time:</strong> {event.end_time}</p>
           <p className="mb-1"><strong>Location:</strong> {event.location}</p>
-          <button className="btn btn-danger mt-2" onClick={(e) => { e.stopPropagation(); deleteEvent(event.id); }}>Delete Event</button>
-        </div>
+          {show ? (
+            <div>
+              <span>Is this event still here?</span>
+            <button className="btn btn-sm btn-primary m-2" onClick={(e) => { e.stopPropagation(); incEvent(event.id); setShow(false); }}>Yes</button>
+            <button className="btn btn-sm btn-primary " onClick={(e) => { e.stopPropagation(); decEvent(event.id);  setShow(false);}}>No</button>
+        
+            </div>
+        ) : <div></div>}
+          </div>
       )}
     </li>
   );

@@ -15,7 +15,7 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function EventsMap({ events, deleteEvent }) {
+function EventsMap({ events, incEvent, decEvent }) {
   return (
     <MapContainer center={[42.3398, -71.0892]} zoom={17} style={{ height: '500px', width: '100%' }}>
       <TileLayer
@@ -25,7 +25,7 @@ function EventsMap({ events, deleteEvent }) {
       {events.map((event, index) => (
         <Marker key={index} position={[event.latitude, event.longitude]}>
          <Popup>
-            <EventItem event={event} isExpanded={true} deleteEvent={deleteEvent} />
+            <EventItem event={event} isExpanded={true} incEvent={incEvent} decEvent={decEvent} />
         </Popup>
   </Marker>
 ))}
