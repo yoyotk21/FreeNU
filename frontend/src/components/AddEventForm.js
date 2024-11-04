@@ -12,7 +12,7 @@ function AddEventForm({ addEvent }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addEvent({ title, description, end_time: endTime, location });
+    addEvent({ title, description, end_time: endTime, location, latitude: position[0], longitude: position[1] });
     setTitle("");
     setDescription("");
     setEndTime("");
