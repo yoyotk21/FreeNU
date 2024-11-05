@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
 
+# TODO:
+# DELETE events after end time passes or if enough people say it doesn't exist.
+
 app = Flask(__name__)
 CORS(app)  # This will allow cross-origin requests from any origin
 

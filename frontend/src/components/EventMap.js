@@ -42,7 +42,7 @@ function LocationMarker({ position, setPosition }) {
 function EventMap({position, setPosition}) {
   
   return (
-    <MapContainer center={position} zoom={20} style={{ height: '500px', width: '100%' }}>
+    <MapContainer maxBounds={[[42.3198, -71.0692], [42.3498, -71.0992]]} center={position} maxZoom={18} minZoom={16} zoom={17} style={{ height: '500px', width: '100%' }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         //attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

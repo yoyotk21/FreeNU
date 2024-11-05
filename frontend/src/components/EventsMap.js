@@ -17,17 +17,17 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 function EventsMap({ events, incEvent, decEvent }) {
   return (
-    <MapContainer center={[42.3398, -71.0892]} zoom={17} style={{ height: '500px', width: '100%' }}>
-      <TileLayer
+    <MapContainer maxBounds={[[42.3198, -71.0692], [42.3498, -71.0992]]} center={[42.3398, -71.0892]} maxZoom={18} minZoom={16} zoom={17} style={{ height: '500px', width: '100%' }}>
+    <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {events.map((event, index) => (
+    />
+    {events.map((event, index) => (
         <Marker key={index} position={[event.latitude, event.longitude]}>
-         <Popup>
+        <Popup>
             <EventItem event={event} isExpanded={true} incEvent={incEvent} decEvent={decEvent} />
         </Popup>
-  </Marker>
+</Marker>
 ))}
     </MapContainer>
   );

@@ -65,28 +65,26 @@ function App() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <Navbar />
-      <div className="card shadow p-4 mb-5 bg-white rounded">
-        <h1 className="text-center mb-4">Welcome to FreeNU</h1>
-        <button
-          className="btn btn-primary mb-4"
-          onClick={() => setShowAddEvent(!showAddEvent)}
-        >
-          {showAddEvent ? "Hide Add Event" : "Add Event"}
-        </button>
-        {showAddEvent && (
-          <AddEventForm addEvent={addEvent} />
-        )}
-      </div>
       <div className="row">
-        <div className="col-lg-8 col-md-8 col-sm-12">
-          <EventsMap events={events} incEvent={incEvent} decEvent={decEvent} />
+        <div className="col-lg-8">
+          <div className="card shadow p-4 mb-5 bg-white rounded">
+            <EventsMap events={events} incEvent={incEvent} decEvent={decEvent} />
+            <button
+              className="btn btn-primary mt-4"
+              onClick={() => setShowAddEvent(!showAddEvent)}
+            >
+              {showAddEvent ? "Hide Add Event" : "Add Event"}
+            </button>
+            {showAddEvent && (
+              <AddEventForm addEvent={addEvent} />
+            )}
+          </div>
         </div>
-        <div className="col-lg-4 col-md-4 col-sm-12 mt-2">
+        <div className="col-lg-4 ">
           <EventList events={events} incEvent={incEvent} decEvent={decEvent} />
         </div>
-        
       </div>
     </div>
   );
