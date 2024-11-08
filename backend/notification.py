@@ -7,9 +7,9 @@ class FreeNUEmailer:
         self.mailServer = smtplib.SMTP('smtp.gmail.com', 587)
         self.address = "freenortheastern@gmail.com"
         self.mailServer.starttls()
-        self.mailServer.login("freenortheastern", "fortniteballs")
+        self.mailServer.login("freenortheastern", "ltfq fjln jytd yuyv")
 
-    def genMessage(event):
+    def genMessage(self, event):
         msg = EmailMessage()
         msg["Subject"] = f"FreeNU: {event["title"]} at {event["location"]}!"
         msg["From"] = self.address 
@@ -32,6 +32,7 @@ class FreeNUEmailer:
 
     def sendMessage(self, message, recipient):
         # Convert event to message
+        del message["TO"]
         message["TO"] = recipient
-        self.mailServer.sendmail(self.address, recipient)
+        self.mailServer.send_message(message)
 
