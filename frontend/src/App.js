@@ -70,16 +70,13 @@ function App() {
       <Navbar />
       <div className="card shadow p-3 mt-4 mb-5 bg-white rounded" style={{ display: 'flex' }}>
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
-        <button
-                className="btn btn-primary mt-4"
-                onClick={() => setShowAddEvent(!showAddEvent)}
-              >
-                {showAddEvent ? "Hide Add Event" : "Add Event"}
-              </button>
-              {showAddEvent && (
-                <AddEventForm addEvent={addEvent} />
-              )}
-        </div>
+        <button className="btn btn-primary mt-4" onClick={() => setShowAddEvent(!showAddEvent)}> 
+          {showAddEvent ? "Hide Add Event" : "Add Event"}
+        </button>
+          {showAddEvent && (
+            <AddEventForm addEvent={addEvent} />
+          )}
+      </div>
     </div>
   );
 }
