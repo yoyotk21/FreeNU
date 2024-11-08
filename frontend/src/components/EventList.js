@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import EventItem from './EventItem';
 
-function EventList({ events, incEvent, decEvent, selectedEventId, onEventSelect }) {
-  const [expandedEventId, setExpandedEventId] = useState(null);
+function EventList({ events, onEventSelect }) {
 
-  const toggleExpandEvent = (eventId) => {
-    setExpandedEventId(expandedEventId === eventId ? null : eventId);
-    onEventSelect(eventId);  // Call the selection function
-  };
 
   return (
     <div className="card shadow p-4 bg-white rounded">
@@ -16,15 +11,12 @@ function EventList({ events, incEvent, decEvent, selectedEventId, onEventSelect 
         <ul className="list-group">
           {events.map((event) => (
             <EventItem
-              key={event.id}
               event={event}
-              incEvent={incEvent}
-              decEvent={decEvent}
-              isExpanded={expandedEventId === event.id}
-              toggleExpandEvent={() => toggleExpandEvent(event.id)}
+              setEvent={onEventSelect}
             />
           ))}
         </ul>
+        
       ) : (
         <p className="text-center">No events available. Please add some events!</p>
       )}

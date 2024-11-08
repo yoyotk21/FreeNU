@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import EventsMap from './EventsMap';
 import EventList from './EventList';
+import SelectedEvent from './SelectedEvent'
 
-function EventContainer({ events, incEvent, decEvent }) {
-  const [selectedEventId, setSelectedEventId, mapCenterEvent, setMapCenterEvent] = useState(null);
+function EventContainer({ events, incEvent, decEvent,  }) {
   const [centerEventId, setCenterEventId] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const handleEventSelect = (eventId) => {
-    const isSameEvent = eventId === selectedEventId;
-    setSelectedEventId(isSameEvent ? null : eventId);
-    setCenterEventId(isSameEvent ? null : eventId);
+  const handleEventSelect = (event) => {
+    if (event != null) {
+      const isSameEvent = event === selectedEvent;
+      setSelectedEvent(isSameEvent ? null : event);
+      setCenterEventId(isSameEvent ? null : event.id);
+    }
   };
 
   return (
@@ -20,8 +23,9 @@ function EventContainer({ events, incEvent, decEvent }) {
                         events={events} 
                         incEvent={incEvent} 
                         decEvent={decEvent}
-                        selectedEventId={selectedEventId}
+                        selectedEventId={selectedEvent == null? null : selectedEvent.id}
                         centerEventId={centerEventId}
+                        onClick= {handleEventSelect}
                     />
                 </div>
                 <div className="col-lg-4">
@@ -29,9 +33,10 @@ function EventContainer({ events, incEvent, decEvent }) {
                             events={events} 
                             incEvent={incEvent} 
                             decEvent={decEvent} 
-                            selectedEventId={selectedEventId} 
+                            selectedEventId={selectedEvent == null? null : selectedEvent.id} 
                             onEventSelect={handleEventSelect}
                         />
+                    <SelectedEvent event={selectedEvent == null? null : selectedEvent} />
                 </div>
             </div>
         </div>

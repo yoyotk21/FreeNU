@@ -28,7 +28,7 @@ let center = null;
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function EventsMap({ events, incEvent, decEvent, selectedEventId, centerEventId }) {
+function EventsMap({ events, incEvent, decEvent, selectedEventId, centerEventId, onClick }) {
 
   return (
     <MapContainer maxBounds={[[42.3198, -71.0692], [42.3498, -71.0992]]} center={DefaultCenter} maxZoom={18} minZoom={16} zoom={17} style={{ height: '500px', width: '100%' }}>
@@ -41,10 +41,11 @@ function EventsMap({ events, incEvent, decEvent, selectedEventId, centerEventId 
           key={event.id}
           position={[event.latitude, event.longitude]}
           icon={event.id === selectedEventId ? SelectedIcon : DefaultIcon}
+          eventHandlers={{
+            click: (e) => {
+              onClick(event)
+            }}}
         >
-          <Popup>
-            <EventItem event={event} isExpanded={true} incEvent={incEvent} decEvent={decEvent} />
-          </Popup>
         </Marker>
       ))}
     </MapContainer>
