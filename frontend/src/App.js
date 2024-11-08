@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import AddEventForm from './components/AddEventForm';
 import EventList from './components/EventList';
 import EventsMap from './components/EventsMap'
+import EventContainer from './components/EventContainer';
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -67,25 +68,18 @@ function App() {
   return (
     <div className="container-fluid mt-5">
       <Navbar />
-      <div className="row">
-        <div className="col-lg-8">
-          <div className="card shadow p-4 mb-5 bg-white rounded">
-            <EventsMap events={events} incEvent={incEvent} decEvent={decEvent} />
-            <button
-              className="btn btn-primary mt-4"
-              onClick={() => setShowAddEvent(!showAddEvent)}
-            >
-              {showAddEvent ? "Hide Add Event" : "Add Event"}
-            </button>
-            {showAddEvent && (
-              <AddEventForm addEvent={addEvent} />
-            )}
-          </div>
+      <div className="card shadow p-3 mt-4 mb-5 bg-white rounded" style={{ display: 'flex' }}>
+        <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
+        <button
+                className="btn btn-primary mt-4"
+                onClick={() => setShowAddEvent(!showAddEvent)}
+              >
+                {showAddEvent ? "Hide Add Event" : "Add Event"}
+              </button>
+              {showAddEvent && (
+                <AddEventForm addEvent={addEvent} />
+              )}
         </div>
-        <div className="col-lg-4 ">
-          <EventList events={events} incEvent={incEvent} decEvent={decEvent} />
-        </div>
-      </div>
     </div>
   );
 }

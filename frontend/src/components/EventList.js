@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import EventItem from './EventItem';
 
-function EventList({ events, incEvent, decEvent }) {
+function EventList({ events, incEvent, decEvent, selectedEventId, onEventSelect }) {
   const [expandedEventId, setExpandedEventId] = useState(null);
 
   const toggleExpandEvent = (eventId) => {
     setExpandedEventId(expandedEventId === eventId ? null : eventId);
+    onEventSelect(eventId);  // Call the selection function
   };
 
   return (
