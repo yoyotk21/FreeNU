@@ -23,6 +23,9 @@ def add_event():
 
     if not title or not end_time or not location or latitude is None or longitude is None:
         return jsonify({"error": "Title, end time, location, latitude, and longitude are required"}), 400
+    if title.strip() == '' or location.strip() == '':
+        return jsonify({"error": "Title and location cannot be blank"}), 400
+    
 
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
@@ -83,6 +86,7 @@ def update_counter(event_id):
 
     return jsonify({"message": "Counter updated successfully", "counter": counter}), 200
 
+# Route to add user
 @app.route('/add_user', methods=['POST'])
 def add_user():
     data = request.get_json()
