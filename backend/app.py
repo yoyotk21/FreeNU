@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
-from validate_data import DataValidator
+from validate_data import DataValidator, InvalidDataError
 
 # TODO:
 # DELETE events after end time passes or if enough people say it doesn't exist.
