@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
+from validate_data import DataValidator
 
 # TODO:
 # DELETE events after end time passes or if enough people say it doesn't exist.
@@ -10,31 +11,36 @@ CORS(app)  # This will allow cross-origin requests from any origin
 
 db_file = "events.db"
 
+validator = DataValidator()
+
 # Route to add a new event
 @app.route('/add_event', methods=['POST'])
 def add_event():
-    data = request.get_json()
-    title = data.get('title')
-    description = data.get('description')
-    end_time = data.get('end_time')
-    location = data.get('location')
-    latitude = data.get('latitude')
-    longitude = data.get('longitude')
+    json = request.get_json()
+    eventObj = {
+        "title": json.get('title').strip(),
+        "description": json.get('description').strip(),
+        "end_time": json.get('end_time'),
+        "location": json.get('location').strip(),
+        "latitude": float(json.get('latitude')),
+        "longitude": float(json.get('longitude')),
+    }
 
-    if not title or not end_time or not location or latitude is None or longitude is None:
-        return jsonify({"error": "Title, end time, location, latitude, and longitude are required"}), 400
-    if title.strip() == '' or location.strip() == '':
-        return jsonify({"error": "Title and location cannot be blank"}), 400
+    try:
+        data = validator.is_valid_event(eventObj)
+    except InvalidDataError:
+        return jsonify({"error": "Bad argument"}, 450)
     
 
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO events (title, description, end_time, location, latitude, longitude, counter) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                       (title, description, end_time, location, latitude, longitude, 0))
+                       (data["title"], data["description"], data["end_time"], data["location"], data["latitude"], data["longitude"], 0))
         conn.commit()
         event_id = cursor.lastrowid
 
     return jsonify({"message": "Event added successfully", "event_id": event_id}), 201
+
 
 # Route to get the list of events
 @app.route('/get_events', methods=['GET'])
@@ -48,6 +54,7 @@ def get_events():
         ]
     return jsonify(events), 200
 
+
 # Route to delete an event
 @app.route('/delete_event/<int:event_id>', methods=['DELETE'])
 def delete_event(event_id):
@@ -58,6 +65,7 @@ def delete_event(event_id):
             return jsonify({"error": "Event not found"}), 404
         conn.commit()
     return jsonify({"message": "Event deleted successfully"}), 200
+
 
 # Route to update the counter for an event
 @app.route('/update_counter/<int:event_id>', methods=['POST'])
@@ -85,6 +93,7 @@ def update_counter(event_id):
         conn.commit()
 
     return jsonify({"message": "Counter updated successfully", "counter": counter}), 200
+
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -118,6 +127,7 @@ def delete_user(user_id):
             return jsonify({"error": "User not found"}), 404
         conn.commit()
     return jsonify({"message": "User deleted successfully"}), 200
+
 
 if __name__ == '__main__':
     # Ensure the database schema includes the new latitude, longitude, counter, and users table
