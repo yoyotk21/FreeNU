@@ -140,7 +140,7 @@ if __name__ == '__main__':
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                email TEXT NOT NULL,
+                email TEXT NOT NULL
             )
         ''')
     app.run(debug=True)

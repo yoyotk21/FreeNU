@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import EventItem from './EventItem';
 
-function EventList({ events, onEventSelect }) {
-
+function EventList({ events, onEventSelect, selectedEventId}) {
 
   return (
     <div className="card shadow p-4 bg-white rounded">
@@ -11,6 +10,7 @@ function EventList({ events, onEventSelect }) {
         <ul className="list-group">
           {events.map((event) => (
             <EventItem
+              isHighlighted={selectedEventId != null && event.id==selectedEventId}
               event={event}
               setEvent={onEventSelect}
             />
