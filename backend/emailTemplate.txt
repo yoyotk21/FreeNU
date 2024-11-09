@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Event Notification - FreeNU</title>
+    <style>
+        body {{
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }}
+            .container {{
+                width: 100%;
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #ffffff;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }}
+            .header {{
+                background-color: #d00000;
+                color: #ffffff;
+                text-align: center;
+                padding: 20px;
+            }}
+            .header h1 {{
+                margin: 0;
+                font-size: 24px;
+            }}
+            .content {{
+                padding: 20px;
+                line-height: 1.6;
+            }}
+            .event-details {{
+                background-color: #f9f9f9;
+                padding: 15px;
+                border-left: 5px solid #d00000;
+                margin-top: 15px;
+            }}
+            .button {{
+                display: inline-block;
+                background-color: #d00000;
+                color: #ffffff;
+                padding: 10px 20px;
+                margin-top: 20px;
+                text-align: center;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+            }}
+            .footer {{
+                background-color: #333;
+                color: #ffffff;
+                text-align: center;
+                padding: 10px;
+                font-size: 12px;
+            }}
+            .footer a {{
+                color: #d00000;
+                text-decoration: none;
+            }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📢 FreeNU Event Alert</h1>
+        </div>
+        <div class="content">
+            <p>A new event has been posted!</p>
+            <div class="event-details">
+                <h2>Event Details</h2>
+                <p><strong>Event:</strong> {event_name}</p>
+                <p><strong>Description:</strong> {event_description}</p>
+                <p><strong>End Time:</strong> {event_end_time}</p>
+                <p><strong>Location:</strong> {event_location}</p>
+            </div>
+
+            <a href="http://example.com" class="button">Get Event Details</a>
+
+            <p>Happy freebie hunting!</p>
+            <p>Emails annoying? <a href="http://example.com">Unsubscribe Here</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

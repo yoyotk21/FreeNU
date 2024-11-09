@@ -3,8 +3,6 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
 import AddEventForm from './components/AddEventForm';
-import EventList from './components/EventList';
-import EventsMap from './components/EventsMap'
 import EventContainer from './components/EventContainer';
 
 function App() {
@@ -66,9 +64,9 @@ function App() {
   };
 
   return (
-    <div className="container-fluid mt-5">
+    <div className="container-fluid">
       <Navbar />
-      <div className="card shadow p-3 mt-4 mb-5 bg-white rounded" style={{ display: 'flex' }}>
+      <div className="card shadow p-3 bg-white rounded mt-5">
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
         <button className="btn btn-primary mt-4" onClick={() => setShowAddEvent(!showAddEvent)}> 
           {showAddEvent ? "Hide Add Event" : "Add Event"}
