@@ -68,7 +68,7 @@ function App() {
       <Navbar />
       <div className="card shadow p-3 bg-white rounded mt-5">
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
-        <button className="btn btn-primary mt-4" onClick={() => setShowAddEvent(!showAddEvent)}> 
+        <button className="btn btn-primay mt-4" onClick={() => setShowAddEvent(!showAddEvent)}> 
           {showAddEvent ? "Hide Add Event" : "Add Event"}
         </button>
           {showAddEvent && (
