@@ -86,23 +86,27 @@ def update_counter(event_id):
 
     return jsonify({"message": "Counter updated successfully", "counter": counter}), 200
 
-# Route to add user
 @app.route('/add_user', methods=['POST'])
 def add_user():
     data = request.get_json()
     email = data.get('email')
-    user_id = data.get('user_id')
 
-    if not email or not user_id:
-        return jsonify({"error": "Email and user_id are required"}), 400
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
 
+    # Check if the email already exists
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (email, user_id) VALUES (?, ?)", (email, user_id))
-        conn.commit()
-        user_id = cursor.lastrowid
+        cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+        existing_user = cursor.fetchone()
 
-    return jsonify({"message": "User added successfully", "user_id": user_id}), 201
+        if existing_user:
+            return jsonify({"error": "Email already exists"}), 400  # Return an error if email already exists
+
+        cursor.execute("INSERT INTO users (email) VALUES (?)", (email,))
+        conn.commit()
+        return jsonify({"message": "User added successfully"}), 201
+
 
 # Route to delete a user
 @app.route('/delete_user/<int:user_id>', methods=['DELETE'])
@@ -114,18 +118,6 @@ def delete_user(user_id):
             return jsonify({"error": "User not found"}), 404
         conn.commit()
     return jsonify({"message": "User deleted successfully"}), 200
-
-# Route to get the list of all users
-@app.route('/get_users', methods=['GET'])
-def get_users():
-    with sqlite3.connect(db_file) as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users")
-        users = [
-            {"id": row[0], "email": row[1], "user_id": row[2]}
-            for row in cursor.fetchall()
-        ]
-    return jsonify(users), 200
 
 if __name__ == '__main__':
     # Ensure the database schema includes the new latitude, longitude, counter, and users table
@@ -149,7 +141,6 @@ if __name__ == '__main__':
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 email TEXT NOT NULL,
-                user_id TEXT NOT NULL
             )
         ''')
     app.run(debug=True)
