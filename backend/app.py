@@ -83,8 +83,48 @@ def update_counter(event_id):
 
     return jsonify({"message": "Counter updated successfully", "counter": counter}), 200
 
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    data = request.get_json()
+    email = data.get('email')
+    user_id = data.get('user_id')
+
+    if not email or not user_id:
+        return jsonify({"error": "Email and user_id are required"}), 400
+
+    with sqlite3.connect(db_file) as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (email, user_id) VALUES (?, ?)", (email, user_id))
+        conn.commit()
+        user_id = cursor.lastrowid
+
+    return jsonify({"message": "User added successfully", "user_id": user_id}), 201
+
+# Route to delete a user
+@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    with sqlite3.connect(db_file) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        if cursor.rowcount == 0:
+            return jsonify({"error": "User not found"}), 404
+        conn.commit()
+    return jsonify({"message": "User deleted successfully"}), 200
+
+# Route to get the list of all users
+@app.route('/get_users', methods=['GET'])
+def get_users():
+    with sqlite3.connect(db_file) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users")
+        users = [
+            {"id": row[0], "email": row[1], "user_id": row[2]}
+            for row in cursor.fetchall()
+        ]
+    return jsonify(users), 200
+
 if __name__ == '__main__':
-    # Ensure the database schema includes the new latitude, longitude, and counter fields
+    # Ensure the database schema includes the new latitude, longitude, counter, and users table
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
         # uncomment to restart the database
@@ -99,6 +139,13 @@ if __name__ == '__main__':
                 latitude REAL NOT NULL,
                 longitude REAL NOT NULL,
                 counter INTEGER DEFAULT 0
+            )
+        ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT NOT NULL,
+                user_id TEXT NOT NULL
             )
         ''')
     app.run(debug=True)
