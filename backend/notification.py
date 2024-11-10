@@ -3,11 +3,6 @@ from email.message import EmailMessage
 from email.mime.text import MIMEText
 from collections import defaultdict
 
-
-class SafeDict(dict):
-    def __missing__(self, key):
-        return '{' + key + '}'
-
 class FreeNUEmailer:
     def __init__(self):
         self.mailServer = smtplib.SMTP('smtp.gmail.com', 587)
@@ -46,6 +41,6 @@ class FreeNUEmailer:
             message["TO"] = recipient
             self.mailServer.send_message(message)
         except SMTPException:
-            print(f"Problem with SMTP Server, could not send {mesage["Subhect"]} message to {recipient}")
+            print(f"Problem with SMTP Server, could not send {message["Subject"]} message to {recipient}")
 
 
