@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
-import AddEventForm from './components/AddEventForm';
+import AddEventContainer from './components/AddEventContainer';
 import EventContainer from './components/EventContainer';
 
 function App() {
   const [events, setEvents] = useState([]);
-  const [showAddEvent, setShowAddEvent] = useState(false);
 
   useEffect(() => {
     fetchEvents();
@@ -20,16 +19,6 @@ function App() {
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching events", error);
-    }
-  };
-
-  const addEvent = async (event) => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/add_event', event);
-      setShowAddEvent(false);
-      fetchEvents();
-    } catch (error) {
-      console.error("Error adding event", error);
     }
   };
 
@@ -66,14 +55,10 @@ function App() {
   return (
     <div className="container-fluid">
       <Navbar />
+      <div className="card bg-transparent mt-3"></div>
       <div className="card shadow p-3 bg-white rounded mt-5">
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
-        <button className="btn btn-primary mt-4" onClick={() => setShowAddEvent(!showAddEvent)}> 
-          {showAddEvent ? "Hide Add Event" : "Add Event"}
-        </button>
-          {showAddEvent && (
-            <AddEventForm addEvent={addEvent} />
-          )}
+        <AddEventContainer fetchEvents={fetchEvents}/>
       </div>
     </div>
   );

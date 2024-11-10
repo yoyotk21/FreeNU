@@ -8,17 +8,15 @@ class InvalidDataError(Exception):
         self.data = data  # Optional attribute to store the data causing the error
         super().__init__(self.message)
 
-
-
 class DataValidator():
     def __init__(self):
         self.eventSchema = Schema(
             {
                 "title": And(str, lambda n: 1 <= len(n) <= 100),
                 "description": And(str, lambda n: 1 <= len(n) <= 200),
-                'end_time': And(self.validate_end_time, error="End time must be within 24 hours from now."),
-                'longitude': And(float, lambda x: 32.3200 <= x <= 32.3500),
-                'latitude': And(float, lambda x: -71.0700 <= x <= -71.0100),
+                'end_time': str,
+                'latitude': And(float, lambda x: 42.3200 <= float(x) <= 42.3500),
+                'longitude': And(float, lambda x: -72.0000 <= float(x) <= -71.0000),
                 'location': And(str, lambda n: 1 <= len(n) <= 100)
             }
         )
@@ -28,7 +26,8 @@ class DataValidator():
             valid = self.eventSchema.validate(event_data)
             return valid
         except Exception as e:
-            print("Invalid data", e)
+            print(event_data)
+            raise InvalidDataError("Data is bad")
     
     def validate_end_time(self, end_time):
         now = datetime.datetime.now()
@@ -43,12 +42,8 @@ def is_valid_email(email):
 testEvent = {
     "title": "Birthday Party", 
     "description": "Fun and cake",
-    "end_time": datetime.datetime.now() + datetime.timedelta(hours=1),
+    "end_time": "09:22",
     "longitude": 32.34,
-    "latitude": -71.05,
+    "latitude": 42.33701720166709,
     "location": "west f"
 }
-
-print(validate_end_time(datetime.datetime.now() + datetime.timedelta(hours=1)))
-
-print(eventSchema.validate(testEvent))

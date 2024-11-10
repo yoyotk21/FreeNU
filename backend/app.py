@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
+from validate_data import DataValidator, InvalidDataError
 
 # TODO:
 # DELETE events after end time passes or if enough people say it doesn't exist.
@@ -27,6 +28,7 @@ def add_event():
 
     try:
         data = validator.is_valid_event(eventObj)
+        print(data["title"])
     except InvalidDataError:
         return jsonify({"error": "Bad argument"}, 450)
     

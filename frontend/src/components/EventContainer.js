@@ -19,6 +19,7 @@ function EventContainer({ events, incEvent, decEvent,  }) {
         <div className="container">
             <div className="row">
                 <div className="col-lg-8">
+                  <div className="card shadow p-2 bg-white rounded">
                     <EventsMap 
                         events={events} 
                         incEvent={incEvent} 
@@ -27,6 +28,7 @@ function EventContainer({ events, incEvent, decEvent,  }) {
                         centerEventId={centerEventId}
                         onClick= {handleEventSelect}
                     />
+                  </div>
                 </div>
                 <div className="col-lg-4">
                     <EventList 
