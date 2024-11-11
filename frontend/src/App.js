@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
-import AddEventContainer from './components/AddEventContainer';
+import InputButtonsContainer from './components/InputButtonsContainer';
 import EventContainer from './components/EventContainer';
 
 function App() {
@@ -58,8 +58,8 @@ function App() {
       <div className="card bg-transparent mt-5"></div>
       <div className="card bg-white shadow p-3">
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
-        <div className="mx-auto w-50 mt-2">
-          <AddEventContainer fetchEvents={fetchEvents}/>
+        <div className="mx-auto w-75 mt-2">
+          <InputButtonsContainer fetchEvents={fetchEvents}/>
         </div>
       </div>
     </div>

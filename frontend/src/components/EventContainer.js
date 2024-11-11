@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import EventsMap from './EventsMap';
 import EventList from './EventList';
 import SelectedEvent from './SelectedEvent'
-import AddEventContainer from './AddEventContainer';
+import InputButtonsContainer from './InputButtonsContainer';
 
 function EventContainer({ events, incEvent, decEvent,  }) {
   const [centerEventId, setCenterEventId] = useState(null);
