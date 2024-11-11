@@ -5,7 +5,7 @@ function AddEmailForm({ addEmail }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addEmail({ email });
+    addEmail({ email: email });
     setEmail("");
   };
 
