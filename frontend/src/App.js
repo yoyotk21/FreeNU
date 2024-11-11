@@ -55,10 +55,12 @@ function App() {
   return (
     <div className="container-fluid">
       <Navbar />
-      <div className="card bg-transparent mt-3"></div>
-      <div className="card shadow p-3 bg-white rounded mt-5">
+      <div className="card bg-transparent mt-5"></div>
+      <div className="card bg-white shadow p-3">
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
-        <AddEventContainer fetchEvents={fetchEvents}/>
+        <div className="mx-auto w-50 mt-2">
+          <AddEventContainer fetchEvents={fetchEvents}/>
+        </div>
       </div>
     </div>
   );

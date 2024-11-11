@@ -18,8 +18,8 @@ function AddEventContainer({ fetchEvents }) {
       };
 
     return (
-    <div>
-        <button className="btn btn-primary mt-4" onClick={() => setShowAddEvent(!showAddEvent)}> 
+    <div className="card w-100">
+        <button className="btn btn-primary" onClick={() => setShowAddEvent(!showAddEvent)}> 
             {showAddEvent ? "Hide Add Event" : "Add Event"}
         </button>
             {showAddEvent && (
