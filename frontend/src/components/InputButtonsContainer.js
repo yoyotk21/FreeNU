@@ -33,7 +33,7 @@ function InputButtonsContainer({ fetchEvents }) {
         <div className="col">
           <button className="btn btn-primary w-100 border-0" onClick={() => setShowAddEvent(!showAddEvent)}
           > 
-              {showAddEvent ? "Hide Add Event" : "Add Event"}
+              Add Event
           </button>
           <Modal fullscreen = {true} show={showAddEvent} onHide={() => setShowAddEvent(false)}>
             <Modal.Header closeButton>
@@ -47,7 +47,7 @@ function InputButtonsContainer({ fetchEvents }) {
         </div>
         <div className="col">
           <button className="btn btn-primary w-100 bg-warning border-0" onClick={() => setShowAddEmail(!showAddEmail)}>
-            {showAddEmail ? "Hide Email Box" : "Get Notified"}
+            Get Notified
           </button>
           <Modal fullscreen = {true} show = {showAddEmail} onHide = {() => setShowAddEmail(false)}>
             <Modal.Header closeButton>
