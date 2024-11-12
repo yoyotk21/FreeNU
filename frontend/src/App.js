@@ -42,16 +42,6 @@ function App() {
     }
   }
 
-  const deleteEvent = async (eventId) => {
-    try {
-      await axios.delete(`http://127.0.0.1:5000/delete_event/${eventId}`);
-      alert("Event deleted successfully");
-      fetchEvents();
-    } catch (error) {
-      console.error("Error deleting event", error);
-    }
-  };
-
   return (
     <div className="container-fluid">
       <Navbar />
