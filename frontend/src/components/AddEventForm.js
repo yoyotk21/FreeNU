@@ -21,7 +21,6 @@ function AddEventForm({ addEvent }) {
 
   return (
     <div className="card p-4 mb-4">
-      <h3 className="text-center mb-4">Add New Event</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <input
