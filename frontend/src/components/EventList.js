@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import EventItem from './EventItem';
+import "./EventList.css"
 
 function EventList({ events, onEventSelect, selectedEventId}) {
 
@@ -8,6 +9,7 @@ function EventList({ events, onEventSelect, selectedEventId}) {
       <h2 className="text-center mb-4">Events</h2>
       {events.length > 0 ? (
         <ul className="list-group">
+          <div class="list-item">
           {events.map((event) => (
             <EventItem
               isHighlighted={selectedEventId != null && event.id==selectedEventId}
@@ -15,6 +17,7 @@ function EventList({ events, onEventSelect, selectedEventId}) {
               setEvent={onEventSelect}
             />
           ))}
+          </div>
         </ul>
         
       ) : (
