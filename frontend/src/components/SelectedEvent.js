@@ -13,7 +13,7 @@ function SelectedEvent({ event }) {
       };
 
     return (
-        <div className="shadow p-3 pt-0 border mt-3" style={{"max-height": "20vh", overflow: "auto"}}>
+        <div className="shadow p-3 pt-0 border mt-3" style={{"max-height": "30vh", overflow: "auto"}}>
             {event != null ? (<div className="mt-3">
                 <p className="mb-1"><strong>Name:</strong> {event.title} </p>
                 <p className="mb-1"><strong>Description:</strong> {event.description}</p>
