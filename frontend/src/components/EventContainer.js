@@ -17,7 +17,7 @@ function EventContainer({ events, incEvent, decEvent,  }) {
   };
 
   return (
-        <div className="container card bg-white shadow p-3 " style={{"height": "80vh"}}>
+        <div className="container-fluid card bg-white shadow p-3 " style={{"height": "80vh", "max-height": "80vh", overflow: "auto"}}>
             <div className="row">
                 <div className="col-lg-8">
                   <div className="card shadow p-2 bg-white rounded">
