@@ -58,7 +58,7 @@ function App() {
       <div className="card bg-transparent mt-5"></div>
       <div className="card bg-white shadow p-3">
         <EventContainer events={events} incEvent={incEvent} decEvent={decEvent}></EventContainer>
-        <div className="mx-auto w-75 mt-2">
+        <div className="mx-auto w-75 mt-4">
           <InputButtonsContainer fetchEvents={fetchEvents}/>
         </div>
       </div>

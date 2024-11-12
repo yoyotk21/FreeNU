@@ -28,9 +28,9 @@ def add_event():
 
     try:
         data = validator.is_valid_event(eventObj)
-        print(data["title"])
     except InvalidDataError:
-        return jsonify({"error": "Bad argument"}, 450)
+        print("didn't add event", eventObj["title"])
+        return jsonify({"error": "Bad argument"}), 450
     
 
     with sqlite3.connect(db_file) as conn:
@@ -40,6 +40,7 @@ def add_event():
         conn.commit()
         event_id = cursor.lastrowid
 
+    print("added event", eventObj["title"])
     return jsonify({"message": "Event added successfully", "event_id": event_id}), 201
 
 

@@ -13,7 +13,6 @@ function InputButtonsContainer({ fetchEvents }) {
           const response = await axios.post('http://127.0.0.1:5000/add_event', event);
           setShowAddEvent(false);
           fetchEvents();
-        //   fetchEvents();
         } catch (error) {
           console.error("Error adding event", error);
         }
@@ -40,13 +39,13 @@ function InputButtonsContainer({ fetchEvents }) {
         </div>
         <div className="col">
           <button className="btn btn-primary w-100 bg-warning border-0" onClick={() => setShowAddEmail(!showAddEmail)}>
-            {showAddEmail ? "Hide Form" : "Get Notified"}
+            {showAddEmail ? "Hide Email Box" : "Get Notified"}
           </button>
           {showAddEmail && (
             <AddEmailForm addEmail={addEmail} />
           )}
         </div>
-        </div>
+      </div>
     )
 }
 
