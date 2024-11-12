@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import AddEventForm from './AddEventForm.js'
+import AddEventForm from './AddEventForm.js';
+import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import AddEmailForm from './AddEmailForm.js';
 
@@ -30,20 +31,30 @@ function InputButtonsContainer({ fetchEvents }) {
     return (
       <div className="row">
         <div className="col">
-          <button className="btn btn-primary w-100 border-0" onClick={() => setShowAddEvent(!showAddEvent)}> 
+          <button className="btn btn-primary w-100 border-0" onClick={() => setShowAddEvent(!showAddEvent)}
+          > 
               {showAddEvent ? "Hide Add Event" : "Add Event"}
           </button>
-              {showAddEvent && (
-              <AddEventForm addEvent={addEvent} />
-              )}
+          <Modal fullscreen = {true} show={showAddEvent} onHide={() => setShowAddEvent(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add Event</Modal.Title>
+            </Modal.Header>
+            <Modal.Body><AddEventForm addEvent={addEvent} /> </Modal.Body>
+          </Modal> 
+              
+          
+          
         </div>
         <div className="col">
           <button className="btn btn-primary w-100 bg-warning border-0" onClick={() => setShowAddEmail(!showAddEmail)}>
             {showAddEmail ? "Hide Email Box" : "Get Notified"}
           </button>
-          {showAddEmail && (
-            <AddEmailForm addEmail={addEmail} />
-          )}
+          <Modal fullscreen = {true} show = {showAddEmail} onHide = {() => setShowAddEmail(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add Email</Modal.Title>
+            </Modal.Header>
+            <Modal.Body><AddEmailForm addEmail={addEmail} /></Modal.Body>
+          </Modal>
         </div>
       </div>
     )
