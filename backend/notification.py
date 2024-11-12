@@ -3,10 +3,31 @@ from email.message import EmailMessage
 from email.mime.text import MIMEText
 from collections import defaultdict
 
+
 class FreeNUEmailer:
     def __init__(self):
         self.mailServer = smtplib.SMTP('smtp.gmail.com', 587)
         self.address = "freenortheastern@gmail.com"
+
+
+    def massSend(self, event):
+        self.mailServer.starttls()
+        self.mailServer.login("freenortheastern", "ltfq fjln jytd yuyv")
+
+
+        with sqlite3.connect(db_file) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users")
+            users = [
+                {"email": row[0], "id": row[1]}
+                for row in cursor.fetchall()
+            ]
+        message = self.genMessage(event)
+        for userObj in users:
+            id = userObj["id"]
+            email = userObj["email"]
+            self.sendMessage(message, address)
+        self.mailServer.quit()
 
     def genMessage(self, event):
         msg = EmailMessage()
@@ -25,14 +46,6 @@ class FreeNUEmailer:
             event_description = event["description"],
             event_end_time = event["end time"],
             event_location = event["location"])
-    
-    def massSend(self, event, emails):
-        self.mailServer.starttls()
-        self.mailServer.login("freenortheastern", "ltfq fjln jytd yuyv")
-        message = self.genMessage(event)
-        for address in emails:
-            self.sendMessage(message, address)
-        self.mailServer.quit()
 
     def sendMessage(self, message, recipient):
         try:
@@ -42,5 +55,3 @@ class FreeNUEmailer:
             self.mailServer.send_message(message)
         except SMTPException:
             print(f"Problem with SMTP Server, could not send {message["Subject"]} message to {recipient}")
-
-

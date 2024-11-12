@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
-from validate_data import DataValidator, InvalidDataError
+from validate_data import DataValidator, InvalidDataError, is_valid_email
 
 # TODO:
 # DELETE events after end time passes or if enough people say it doesn't exist.
@@ -101,9 +101,12 @@ def update_counter(event_id):
 def add_user():
     data = request.get_json()
     email = data.get('email')
-
+    
     if not email:
         return jsonify({"error": "Email is required"}), 400
+
+    if not is_valid_email(email):
+        return jsonify({"error": "Email is not of valid form"}), 450
 
     # Check if the email already exists
     with sqlite3.connect(db_file) as conn:
@@ -116,7 +119,7 @@ def add_user():
 
         cursor.execute("INSERT INTO users (email) VALUES (?)", (email,))
         conn.commit()
-        return jsonify({"message": "User added successfully"}), 201
+        return jsonify({"message": "User added successfully"}), 200
 
 
 # Route to delete a user
