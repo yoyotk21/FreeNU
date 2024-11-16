@@ -106,6 +106,7 @@ def add_user():
         return jsonify({"error": "Email is required"}), 400
 
     if not is_valid_email(email):
+        print("bad email form")
         return jsonify({"error": "Email is not of valid form"}), 450
 
     # Check if the email already exists
@@ -123,7 +124,7 @@ def add_user():
 
 
 # Route to delete a user
-@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+@app.route('/remove_user/<int:user_id>', methods=['GET'])
 def delete_user(user_id):
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()

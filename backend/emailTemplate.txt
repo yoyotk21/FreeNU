@@ -83,7 +83,7 @@
             <a href="http://example.com" class="button">Get Event Details</a>
 
             <p>Happy freebie hunting!</p>
-            <p>Emails annoying? <a href="http://example.com">Unsubscribe Here</a>.</p>
+            <p>Emails annoying? <a href="http://example.com/delete_user/{user_id}">Unsubscribe Here</a>.</p>
         </div>
     </div>
 </body>

@@ -1,11 +1,14 @@
 import smtplib
+import sqlite3
 from email.message import EmailMessage
 from email.mime.text import MIMEText
 from collections import defaultdict
 
+db_file = "events.db"
 
 class FreeNUEmailer:
     def __init__(self):
+        self.db_file = "events.db"
         self.mailServer = smtplib.SMTP('smtp.gmail.com', 587)
         self.address = "freenortheastern@gmail.com"
 
@@ -14,38 +17,40 @@ class FreeNUEmailer:
         self.mailServer.starttls()
         self.mailServer.login("freenortheastern", "ltfq fjln jytd yuyv")
 
-
-        with sqlite3.connect(db_file) as conn:
+        with sqlite3.connect(self.db_file) as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM users")
             users = [
                 {"email": row[0], "id": row[1]}
                 for row in cursor.fetchall()
             ]
-        message = self.genMessage(event)
-        for userObj in users:
-            id = userObj["id"]
-            email = userObj["email"]
-            self.sendMessage(message, address)
+            print(users)
+            for userObj in users:
+                id = userObj["id"]
+                email = userObj["email"]
+                message = self.generate_event_email(event, id)
+                self.sendMessage(message, email)
         self.mailServer.quit()
 
-    def genMessage(self, event):
+
+    def generate_event_email(self, event, userID):
         msg = EmailMessage()
         msg["Subject"] = f"FreeNU: {event["title"]} at {event["location"]}!"
         msg["From"] = self.address 
-        bodyText = self.generate_event_email(event)
-        htmlBody = MIMEText(bodyText, 'html')
-        msg.set_content(htmlBody)
-        return msg
 
-    def generate_event_email(self, event):
         with open('/Users/henry/Desktop/FreeNU/FreeNU/backend/emailTemplate.txt', 'r') as file:
             html_template = file.read()
-        return html_template.format(            
+
+        bodyText = html_template.format(            
             event_name = event["title"],
             event_description = event["description"],
             event_end_time = event["end time"],
-            event_location = event["location"])
+            event_location = event["location"],
+            user_id = userID)
+
+        htmlBody = MIMEText(bodyText, 'html')
+        msg.set_content(htmlBody)
+        return msg
 
     def sendMessage(self, message, recipient):
         try:

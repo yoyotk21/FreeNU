@@ -11,7 +11,7 @@ function Unsubscribe() {
             const response = await axios.delete('http://127.0.0.1:5000/delete_user/', email);
             setSubmittedMessage(true);
           } catch (error) {
-            console.error("Error adding user", error);
+            console.error("Error removing user", error);
           }
         }
 
