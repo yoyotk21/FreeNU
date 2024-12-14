@@ -73,9 +73,8 @@ def delete_event(event_id):
 @app.route('/update_counter/<int:event_id>', methods=['POST'])
 def update_counter(event_id):
     data = request.get_json()
-    action = data.get('action')
-
-    if action not in ['increase', 'decrease']:
+    action = data.get('isStillHere')
+    if type(action) is not bool:
         return jsonify({"error": "Invalid action. Use 'increase' or 'decrease'"}), 400
 
     with sqlite3.connect(db_file) as conn:
@@ -86,9 +85,9 @@ def update_counter(event_id):
             return jsonify({"error": "Event not found"}), 404
 
         counter = row[0]
-        if action == 'increase':
+        if action:
             counter += 1
-        elif action == 'decrease' and counter > 0:
+        elif not action and counter > 0:
             counter -= 1
 
         cursor.execute("UPDATE events SET counter = ? WHERE id = ?", (counter, event_id))
