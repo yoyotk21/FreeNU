@@ -9,7 +9,7 @@ function EventList({ events, onEventSelect, selectedEventId}) {
       <h2 className="text-center mb-4">Events</h2>
       {events.length > 0 ? (
         <ul className="list-group">
-          <div class="list-item">
+          <div className="list-item">
           {events.map((event) => (
             <EventItem
               isHighlighted={selectedEventId != null && event.id==selectedEventId}

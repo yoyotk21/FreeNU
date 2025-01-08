@@ -4,7 +4,7 @@ import EventList from './EventList';
 import SelectedEvent from './SelectedEvent'
 import InputButtonsContainer from './InputButtonsContainer';
 
-function EventContainer({ events, incEvent, decEvent,  }) {
+function EventContainer({ events, incEvent, decEvent, }) {
   const [centerEventId, setCenterEventId] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -14,7 +14,7 @@ function EventContainer({ events, incEvent, decEvent,  }) {
       setSelectedEvent(isSameEvent ? null : event);
       setCenterEventId(isSameEvent ? null : event.id);
     }
-  };
+  }
 
   return (
         <div className="container-fluid card bg-white shadow p-3 " style={{"height": "80vh", "max-height": "80vh", overflow: "auto"}}>
